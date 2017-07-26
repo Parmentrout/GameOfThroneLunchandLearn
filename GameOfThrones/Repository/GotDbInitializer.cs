@@ -25,10 +25,11 @@ namespace GameOfThrones.Repository
                             new Person() { Name = "Joffrey Lannister", IsAlive = false}
                         }},
                 new House() {HouseName = "Stark", Location = "North",  People = new List<Person>() {
+                            new Person() { Name = "Ned Stark", IsAlive = false},
                             new Person() { Name = "John Snow", IsAlive = true},
                             new Person() { Name = "Arya Stark", IsAlive = true},
-                            new Person() { Name = "Bran Stark", IsAlive = true},
-                            new Person() { Name = "Sansa Stark", IsAlive = true}
+                            new Person() { Name = "Rob Stark", IsAlive = false},
+                            new Person() { Name = "Catlyn Stark", IsAlive = false}
                         }},
             };
 

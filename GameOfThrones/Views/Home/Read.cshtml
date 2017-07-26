@@ -10,15 +10,24 @@
         <ul>
             @foreach (var person in house.People)
             {
-                <li>@person.Name</li>
-
-                <ul>
-                    @foreach (var pet in person.Pets)
+                <li>
+                    @if (!person.IsAlive)
                     {
-                        <li>@pet.Name</li>
+                        <del style="color: red">@person.Name</del>
                     }
-                </ul>
+                    else
+                    {
+                        @person.Name
+                    }
+                    <ul>
+                        @foreach (var pet in person.Pets)
+                        {
+                            <li>@pet.Name</li>
+                        }
+                    </ul>
+                </li>
             }
         </ul>
     }
 </div>
+
