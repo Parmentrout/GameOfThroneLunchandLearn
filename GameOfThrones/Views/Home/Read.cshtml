@@ -2,14 +2,23 @@
     ViewBag.Title = "Read Only Page";
 }
 
-@foreach (var house in ViewBag.Houses)
-{
-    <h3>@house.HouseName:  @house.Location</h3>
-
-    <ul>
-    @foreach (var person in house.People)
+<div style="margin-left: 100px;margin-top: 50px">
+    @foreach (var house in ViewBag.Houses)
     {
-        <li>@person.Name</li>
+        <h3>@house.HouseName:  @house.Location</h3>
+
+        <ul>
+            @foreach (var person in house.People)
+            {
+                <li>@person.Name</li>
+
+                <ul>
+                    @foreach (var pet in person.Pets)
+                    {
+                        <li>@pet.Name</li>
+                    }
+                </ul>
+            }
+        </ul>
     }
-    </ul>
-}
+</div>

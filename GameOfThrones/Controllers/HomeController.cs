@@ -14,6 +14,14 @@ namespace GameOfThrones.Controllers
     [Log]
     public class HomeController : Controller
     {
+
+        private IUnitOfWork _unitOfWork;
+
+        public HomeController()
+        {
+            _unitOfWork = new UnitOfWork(new GotContext());
+        }
+
         public ActionResult Index()
         {
             //throw new Exception("This is unhandled exception");
@@ -24,9 +32,7 @@ namespace GameOfThrones.Controllers
         {
             ViewBag.Message = "GOT Houses";
 
-            var context = new GotContext();
-            IQueryable<House> query = context.Houses;
-
+            IQueryable<House> query = _unitOfWork.GetHouses();
             ViewBag.Houses = query.ToList();
 
             return View();
@@ -36,11 +42,8 @@ namespace GameOfThrones.Controllers
         public ActionResult Edit()
         {
             var viewModel = new EditViewModel();
-            List<Person> people;
-            using (var context = new GotContext())
-            {
-                people = context.People.AsNoTracking().ToList();
-            }
+            List<Person> people = _unitOfWork.GetPeople().AsNoTracking().ToList();
+          
             viewModel.People = people.Select(p => new SelectListItem() { Text = p.Name, Value = p.PersonId.ToString() });
 
             return View(viewModel);
@@ -48,27 +51,25 @@ namespace GameOfThrones.Controllers
 
         public ActionResult SaveEdit(EditViewModel viewModel)
         {
-            //Save data
-            using (var context = new GotContext())
+           
+            var person = _unitOfWork.FindPersonById(viewModel.SelectedPerson);
+
+            if (person != null)
             {
-                var person = context.People.Find(viewModel.SelectedPerson);
-
-                if (person != null)
+                var animal = new Pet()
                 {
-                    var animal = new Pet()
-                    {
-                        Name = viewModel.PetName,
-                        PersonId = person.PersonId,
-                        PetType = (PetType) Enum.Parse(typeof(PetType), viewModel.SelectedPetType)
-                    };
+                    Name = viewModel.PetName,
+                    PersonId = person.PersonId,
+                    PetType = (PetType) Enum.Parse(typeof(PetType), viewModel.SelectedPetType)
+                };
 
-                    person.Pets.Add(animal);
-                }
-
-                context.SaveChanges();
+                person.Pets.Add(animal);
+                _unitOfWork.UpdatePerson(person);
             }
 
-            return View("Edit", viewModel);
+            _unitOfWork.Save();
+
+            return View();
         }
     }
 }
