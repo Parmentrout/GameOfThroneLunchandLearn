@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Read Only Page";
+}
+
+@foreach (var house in ViewBag.Houses)
+{
+    <h3>@house.HouseName:  @house.Location</h3>
+
+    <ul>
+    @foreach (var person in house.People)
+    {
+        <li>@person.Name</li>
+    }
+    </ul>
+}

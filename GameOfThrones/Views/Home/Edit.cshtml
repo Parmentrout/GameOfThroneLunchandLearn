@@ -1,0 +1,26 @@
+﻿@model GameOfThrones.Models.EditViewModel
+
+@{
+    ViewBag.Title = "Add a pet";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@using (Html.BeginForm("SaveEdit", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.LabelFor(m => m.PetName)
+    @Html.TextBoxFor(m => m.PetName)
+    @Html.ValidationMessageFor(m => m.PetName)
+
+    @Html.LabelFor(m => m.SelectedPerson)
+    @Html.DropDownListFor(m => m.SelectedPerson, Model.People)
+    @Html.ValidationMessageFor(m => m.SelectedPerson)
+    
+    @Html.LabelFor(m => m.SelectedPetType)
+    @Html.DropDownListFor(m => m.SelectedPetType, Model.PetTypes)
+    @Html.ValidationMessageFor(m => m.SelectedPetType)
+
+    <input type="submit" value="Save" />
+}
