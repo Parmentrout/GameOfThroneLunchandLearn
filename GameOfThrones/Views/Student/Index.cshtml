@@ -1,7 +1,15 @@
-﻿@model dynamic
+﻿@model GameOfThrones.Models.TranslationViewModel
 
 @{
-    ViewBag.Title = "Students";
+    ViewBag.Title = "Culture Testing";
 }
 
 <h2>testing routing</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.Hello);
+    @Html.TextBoxFor(m => m.Hello);
+
+    <input type="submit" value="Save" />
+}
